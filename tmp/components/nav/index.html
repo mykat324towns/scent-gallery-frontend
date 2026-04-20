@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nav — Scent Gallery</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../base.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Demo: give enough scroll height to test sticky */
+    .demo-spacer { height: 200vh; padding-top: 80px; text-align: center; color: var(--color-on-surface-muted); font-family: var(--font-body); font-size: 14px; }
+  </style>
+</head>
+<body>
+
+<!-- Announcement Bar (inline for demo) -->
+<div style="background:var(--color-accent);color:#fff;height:36px;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);font-size:13px;font-weight:500;position:sticky;top:0;z-index:100;">
+  Use code <strong style="font-weight:700;letter-spacing:.05em;margin-left:4px;">FIRST10</strong>&nbsp;for 10% off your first order
+</div>
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="container nav__inner">
+
+    <!-- Left links -->
+    <ul class="nav__links-left" role="list">
+      <li><a href="#" class="nav__link">Shop</a></li>
+      <li><a href="#" class="nav__link">Discover</a></li>
+    </ul>
+
+    <!-- Mobile hamburger -->
+    <button class="nav__hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Centered logo -->
+    <a href="#" class="nav__logo" aria-label="Scent Gallery home">Scent Gallery</a>
+
+    <!-- Right links + cart -->
+    <ul class="nav__links-right" role="list">
+      <li><a href="#" class="nav__link">About</a></li>
+      <li>
+        <button class="nav__cart" aria-label="Cart (2 items)">
+          <svg class="nav__cart-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="nav__cart-badge" aria-hidden="true">2</span>
+        </button>
+      </li>
+    </ul>
+
+  </div>
+</nav>
+
+<!-- Mobile Drawer -->
+<div class="nav__drawer" id="nav-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="nav__drawer-overlay"></div>
+  <div class="nav__drawer-panel">
+    <button class="nav__drawer-close" aria-label="Close menu">&#215;</button>
+    <a href="#" class="nav__drawer-link">Shop</a>
+    <a href="#" class="nav__drawer-link">Discover</a>
+    <a href="#" class="nav__drawer-link">About</a>
+  </div>
+</div>
+
+<div class="demo-spacer">Scroll down to see the nav go sticky ↓</div>
+
+<script src="scripts.js"></script>
+</body>
+</html>

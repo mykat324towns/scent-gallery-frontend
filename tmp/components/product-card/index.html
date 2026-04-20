@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Card — Scent Gallery</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../base.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { padding: var(--space-16); background: var(--color-bg-alt); }
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 280px));
+      gap: var(--space-6);
+    }
+  </style>
+</head>
+<body>
+
+<div class="demo-grid">
+
+  <!-- Standard card — New badge -->
+  <article class="product-card" aria-label="Sauvage Dior — 10ml Pressurized Decant">
+    <div class="product-card__image-wrap">
+      <img
+        class="product-card__image"
+        src="../../brand-assets/bottles/Pressurized-10ML.avif"
+        alt="Sauvage Dior 10ml pressurized decant bottle"
+        loading="lazy"
+        width="200"
+        height="267"
+      >
+      <span class="product-card__badge" aria-label="New">New</span>
+    </div>
+    <div class="product-card__info">
+      <h3 class="product-card__name">Sauvage — Dior</h3>
+      <p class="product-card__meta">10ml · Pressurized</p>
+      <div class="product-card__stars" aria-label="4.9 out of 5 stars, 214 reviews">
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <span class="product-card__review-count">(214)</span>
+      </div>
+      <p class="product-card__price">$12.00</p>
+      <button class="product-card__cta">Add to Cart</button>
+    </div>
+  </article>
+
+  <!-- Standard card — no badge -->
+  <article class="product-card" aria-label="Bleu de Chanel — 5ml Decant">
+    <div class="product-card__image-wrap">
+      <img
+        class="product-card__image"
+        src="../../brand-assets/bottles/5ML.avif"
+        alt="Bleu de Chanel 5ml decant bottle"
+        loading="lazy"
+        width="200"
+        height="267"
+      >
+    </div>
+    <div class="product-card__info">
+      <h3 class="product-card__name">Bleu de Chanel — Chanel</h3>
+      <p class="product-card__meta">5ml · Basic</p>
+      <div class="product-card__stars" aria-label="4.8 out of 5 stars, 187 reviews">
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <span class="product-card__review-count">(187)</span>
+      </div>
+      <p class="product-card__price">$7.00</p>
+      <button class="product-card__cta">Add to Cart</button>
+    </div>
+  </article>
+
+  <!-- Sold out -->
+  <article class="product-card product-card--sold-out" aria-label="Oud Wood Tom Ford — 1ml Decant, Sold out">
+    <div class="product-card__image-wrap">
+      <img
+        class="product-card__image"
+        src="../../brand-assets/bottles/1ML.avif"
+        alt="1ml decant bottle"
+        loading="lazy"
+        width="200"
+        height="267"
+      >
+      <span class="product-card__badge product-card__badge--sold-out" aria-label="Sold out">Sold Out</span>
+    </div>
+    <div class="product-card__info">
+      <h3 class="product-card__name">Oud Wood — Tom Ford</h3>
+      <p class="product-card__meta">1ml · Basic</p>
+      <div class="product-card__stars" aria-label="4.7 out of 5 stars, 98 reviews">
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star star--empty" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <span class="product-card__review-count">(98)</span>
+      </div>
+      <p class="product-card__price">$4.00</p>
+      <button class="product-card__cta" disabled aria-disabled="true">Sold Out</button>
+    </div>
+  </article>
+
+</div>
+
+</body>
+</html>

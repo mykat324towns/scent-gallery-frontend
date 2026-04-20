@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter / Sort Bar — Scent Gallery</title>
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../base.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="filter-bar" role="search" aria-label="Filter and sort products">
+  <div class="container filter-bar__inner">
+
+    <div class="filter-bar__pills-wrap">
+      <div class="filter-bar__pills" role="group" aria-label="Filters">
+
+        <!-- Size group -->
+        <span class="filter-bar__group-label" aria-hidden="true">Size</span>
+        <button class="filter-pill" role="checkbox" aria-pressed="false" aria-label="Filter by 1ml">1ml</button>
+        <button class="filter-pill" role="checkbox" aria-pressed="false" aria-label="Filter by 2ml">2ml</button>
+        <button class="filter-pill" role="checkbox" aria-pressed="false" aria-label="Filter by 5ml">5ml</button>
+        <button class="filter-pill" role="checkbox" aria-pressed="false" aria-label="Filter by 10ml">10ml</button>
+        <button class="filter-pill" role="checkbox" aria-pressed="false" aria-label="Filter by 30ml">30ml</button>
+
+        <div class="filter-bar__divider" aria-hidden="true"></div>
+
+        <!-- Fragrance family -->
+        <span class="filter-bar__group-label" aria-hidden="true">Family</span>
+        <button class="filter-pill" role="checkbox" aria-pressed="false">Woody</button>
+        <button class="filter-pill" role="checkbox" aria-pressed="false">Fresh</button>
+        <button class="filter-pill" role="checkbox" aria-pressed="false">Floral</button>
+        <button class="filter-pill" role="checkbox" aria-pressed="false">Oriental</button>
+        <button class="filter-pill" role="checkbox" aria-pressed="false">Fougère</button>
+
+        <div class="filter-bar__divider" aria-hidden="true"></div>
+
+        <!-- Price -->
+        <span class="filter-bar__group-label" aria-hidden="true">Price</span>
+        <button class="filter-pill" role="checkbox" aria-pressed="false">Under $10</button>
+        <button class="filter-pill" role="checkbox" aria-pressed="false">$10–$20</button>
+        <button class="filter-pill" role="checkbox" aria-pressed="false">$20+</button>
+
+        <div class="filter-bar__divider" aria-hidden="true"></div>
+
+        <!-- Availability -->
+        <button class="filter-pill" role="checkbox" aria-pressed="false">In Stock</button>
+
+      </div>
+    </div>
+
+    <!-- Sort -->
+    <div class="filter-bar__sort">
+      <span class="filter-bar__sort-label" id="sort-label">Sort by</span>
+      <select class="filter-bar__sort-select" aria-labelledby="sort-label">
+        <option value="featured">Featured</option>
+        <option value="price-asc">Price: Low–High</option>
+        <option value="price-desc">Price: High–Low</option>
+        <option value="newest">Newest</option>
+      </select>
+    </div>
+
+  </div>
+</div>
+
+<script src="scripts.js"></script>
+</body>
+</html>

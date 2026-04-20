@@ -58,16 +58,27 @@ Reusable workflows live in `.claude/skills/`. Each skill gets its own folder:
 .claude/skills/skill-name/SKILL.md
 ```
 
-Skills are built organically as recurring tasks surface. The backlog below is the starting queue.
+### Active Skills
+
+- **research** (`.claude/skills/research/`) — Context-aware deep research via Perplexity. Injects current priorities and business context into every query. Requires `PERPLEXITY_API_KEY` in `.env`.
 
 ### Skills Backlog
-
-Priority order based on highest-friction recurring tasks:
 
 1. **product-upload** — Automate WooCommerce product setup (stock rules, add-ons, pricing, variants)
 2. **supplier-price-check** — Compare fragrance prices across supplier sites, output ranked recommendation
 3. **clarity-review** — Analyze Microsoft Clarity sessions, output actionable CRO recommendations
 4. **video-rough-cut** — Workflow for rough cutting raw footage in Premiere Pro
+
+## Brand Assets
+
+Logos, headshots, and brand imagery live in `brand-assets/`:
+
+- `brand-assets/logos/` — Scent Gallery logo files (all variants)
+- `brand-assets/headshots/` — Jaxson's personal brand photos
+- `brand-assets/bottles/` — Individual product bottle shots, one per size variant (7 total)
+- `brand-assets/other/` — Product shots, lifestyle imagery, textures, misc
+
+Pull from here first when building any creative, content, or design work.
 
 ## Templates
 

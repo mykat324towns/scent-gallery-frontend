@@ -1,0 +1,299 @@
+{
+  "cookies": [
+    {
+      "name": "wp_woocommerce_session_b02052f8c0c916cfce1b15967f6a30f1",
+      "value": "t_219f4f3c4e4bc6fe85d0fc08438570%7C1776571707%7C1776485307%7C%24generic%24z0r4fYnOePeZoLinh8ZeCBRKvNVEG9bqc7N2C9A5",
+      "domain": "scentgallery.shop",
+      "path": "/",
+      "expires": 1776571708.627029,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "CLID",
+      "value": "ac1d2e84590d49ea8181564b11ba7094.20260417.20270417",
+      "domain": "www.clarity.ms",
+      "path": "/",
+      "expires": 1807934908.966372,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.614365589.1776398909",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": 1810959019.906484,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clck",
+      "value": "q573m2%5E2%5Eg5a%5E0%5E2298",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": 1807934909,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sbjs_migrations",
+      "value": "1418474375998%3D1",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": 1791950909,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sbjs_current_add",
+      "value": "fd%3D2026-04-17%2004%3A08%3A29%7C%7C%7Cep%3Dhttps%3A%2F%2Fscentgallery.shop%2Fcart%2F%7C%7C%7Crf%3D%28none%29",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": 1791950909,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sbjs_first_add",
+      "value": "fd%3D2026-04-17%2004%3A08%3A29%7C%7C%7Cep%3Dhttps%3A%2F%2Fscentgallery.shop%2Fcart%2F%7C%7C%7Crf%3D%28none%29",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": 1791950909,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sbjs_current",
+      "value": "typ%3Dtypein%7C%7C%7Csrc%3D%28direct%29%7C%7C%7Cmdm%3D%28none%29%7C%7C%7Ccmp%3D%28none%29%7C%7C%7Ccnt%3D%28none%29%7C%7C%7Cid%3D%28none%29%7C%7C%7Ctrm%3D%28none%29%7C%7C%7Cmtke%3D%28none%29",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sbjs_first",
+      "value": "typ%3Dtypein%7C%7C%7Csrc%3D%28direct%29%7C%7C%7Cmdm%3D%28none%29%7C%7C%7Ccmp%3D%28none%29%7C%7C%7Ccnt%3D%28none%29%7C%7C%7Cid%3D%28none%29%7C%7C%7Ctrm%3D%28none%29%7C%7C%7Cmtke%3D%28none%29",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": 1791950909,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sbjs_udata",
+      "value": "vst%3D1%7C%7C%7Cuip%3D%28none%29%7C%7C%7Cuag%3DMozilla%2F5.0%20%28Windows%20NT%2010.0%3B%20Win64%3B%20x64%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F147.0.0.0%20Safari%2F537.36",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "mtk_src_trk",
+      "value": "%7B%22type%22%3A%22typein%22%2C%22url%22%3A%22(none)%22%2C%22mtke%22%3A%22(none)%22%2C%22utm_campaign%22%3A%22(none)%22%2C%22utm_source%22%3A%22(direct)%22%2C%22utm_medium%22%3A%22(none)%22%2C%22utm_content%22%3A%22(none)%22%2C%22utm_id%22%3A%22(none)%22%2C%22utm_term%22%3A%22(none)%22%2C%22session_entry%22%3A%22https%3A%2F%2Fscentgallery.shop%2Fcart%2F%22%2C%22session_start_time%22%3A%222026-04-17%2004%3A08%3A29%22%2C%22session_pages%22%3A%221%22%2C%22session_count%22%3A%221%22%7D",
+      "domain": "scentgallery.shop",
+      "path": "/",
+      "expires": 1791950909,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "MUID",
+      "value": "28908248E00A62F30AC39576E17563FF",
+      "domain": ".bing.com",
+      "path": "/",
+      "expires": 1810094911.120099,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1777003711.120158,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SRM_B",
+      "value": "28908248E00A62F30AC39576E17563FF",
+      "domain": ".c.bing.com",
+      "path": "/",
+      "expires": 1810094911.120182,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "SM",
+      "value": "C",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MUID",
+      "value": "28908248E00A62F30AC39576E17563FF",
+      "domain": ".clarity.ms",
+      "path": "/",
+      "expires": 1810094910.18693,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "MR",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1777003710.186969,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "ANONCHK",
+      "value": "0",
+      "domain": ".c.clarity.ms",
+      "path": "/",
+      "expires": 1776399510.186987,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__ssid",
+      "value": "165b2de2-55f9-4aca-80c5-4b8415d85e84",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": 1810958924.914974,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "m",
+      "value": "7567fe4e-50c5-4ddf-8a30-a789b0f959a36e0f7f",
+      "domain": "m.stripe.com",
+      "path": "/",
+      "expires": 1810958927.384993,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__stripe_mid",
+      "value": "8039d223-6016-4029-bfc8-469618e948164ff4d4",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": 1807934926,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "__stripe_sid",
+      "value": "ce527bfb-3ac6-4762-8fa8-179e81fc2331eef4e6",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": 1776400726,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "NID",
+      "value": "530=KpdXjTqOuDUQYc5oj_O6fuN8iYRQrjNlLhrbJxDrAUaT_ihtXmChZRBxSaiyZ-uze-bb9FMphlnda4wHYRYMvggdlve1PFsE6TP9ZCGO5MXSZXksJbUeFDr7iCuZ-R4FoXLp1q5d0COIEk29-CqfTlNFbOmqwVKSA4V63KibkaU0oqGlkKO7bciVtabyz00oo3IO-Ld7zjUNVFNBK40BRQ",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1792210128.625241,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "tk_ai",
+      "value": "jetpack%3AZCtdD4WvvhwSZh2ajman%2FnFl",
+      "domain": "scentgallery.shop",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": true,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "sbjs_session",
+      "value": "pgs%3D6%7C%7C%7Ccpg%3Dhttps%3A%2F%2Fscentgallery.shop%2Fcheckout%2Forder-received%2F3586%2F%3Fkey%3Dwc_order_fn6rmg7LxIp8d",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": 1776400819,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "tk_qs",
+      "value": "",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": 1776400819,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_clsk",
+      "value": "1o1wt4r%5E1776399020368%5E4%5E1%5Ev.clarity.ms%2Fcollect",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": 1776485420,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_Q6Q9Y00D8W",
+      "value": "GS2.1.s1776398909$o1$g1$t1776399114$j60$l0$h0",
+      "domain": ".scentgallery.shop",
+      "path": "/",
+      "expires": 1810959114.791292,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://scentgallery.shop",
+      "localStorage": [
+        {
+          "name": "wc_cart_hash_53f8e6bf1010bea558945f3a9b9ed872",
+          "value": "20aa8bd0fef9e9f711ffa92c9b7a4d8e"
+        },
+        {
+          "name": "wcpay_appearance_shortcode_checkout",
+          "value": "{\"version\":\"5155f33e2ad3391a29684dbd3bff1891\",\"appearance\":{\"variables\":{\"colorBackground\":\"rgb(255, 255, 255)\",\"colorText\":\"rgb(81, 81, 81)\",\"fontFamily\":\"Jost\",\"fontSizeBase\":\"11.375px\"},\"theme\":\"stripe\",\"labels\":\"above\",\"rules\":{\".Input\":{\"color\":\"rgb(17, 17, 17)\",\"padding\":\"0px 12px\",\"paddingTop\":\"0px\",\"paddingRight\":\"12px\",\"paddingBottom\":\"0px\",\"paddingLeft\":\"12px\",\"fontFamily\":\"Jost, sans-serif\",\"fontSize\":\"14px\",\"lineHeight\":\"23px\",\"letterSpacing\":\"normal\",\"fontWeight\":\"400\",\"textDecoration\":\"none\",\"textShadow\":\"none\",\"textTransform\":\"none\",\"-webkit-font-smoothing\":\"antialiased\",\"transition\":\"border-color 0.15s\",\"backgroundColor\":\"rgb(255, 255, 255)\",\"border\":\"1px solid rgb(224, 224, 224)\",\"borderTop\":\"1px solid rgb(224, 224, 224)\",\"borderRight\":\"1px solid rgb(224, 224, 224)\",\"borderBottom\":\"1px solid rgb(224, 224, 224)\",\"borderLeft\":\"1px solid rgb(224, 224, 224)\",\"borderRadius\":\"8px\",\"borderWidth\":\"1px\",\"borderColor\":\"rgb(224, 224, 224)\",\"borderStyle\":\"solid\",\"borderTopWidth\":\"1px\",\"borderTopColor\":\"rgb(224, 224, 224)\",\"borderTopStyle\":\"solid\",\"borderRightWidth\":\"1px\",\"borderRightColor\":\"rgb(224, 224, 224)\",\"borderRightStyle\":\"solid\",\"borderBottomWidth\":\"1px\",\"borderBottomColor\":\"rgb(224, 224, 224)\",\"borderBottomStyle\":\"solid\",\"borderLeftWidth\":\"1px\",\"borderLeftColor\":\"rgb(224, 224, 224)\",\"borderLeftStyle\":\"solid\",\"borderTopLeftRadius\":\"8px\",\"borderTopRightRadius\":\"8px\",\"borderBottomRightRadius\":\"8px\",\"borderBottomLeftRadius\":\"8px\",\"outline\":\"3px none rgb(17, 17, 17)\",\"outlineOffset\":\"0px\",\"boxShadow\":\"none\"},\".Input--invalid\":{\"color\":\"rgb(17, 17, 17)\",\"padding\":\"0px 12px\",\"paddingTop\":\"0px\",\"paddingRight\":\"12px\",\"paddingBottom\":\"0px\",\"paddingLeft\":\"12px\",\"fontFamily\":\"Jost, sans-serif\",\"fontSize\":\"14px\",\"lineHeight\":\"23px\",\"letterSpacing\":\"normal\",\"fontWeight\":\"400\",\"textDecoration\":\"none\",\"textShadow\":\"none\",\"textTransform\":\"none\",\"-webkit-font-smoothing\":\"antialiased\",\"transition\":\"border-color 0.15s\",\"backgroundColor\":\"rgb(255, 255, 255)\",\"border\":\"1px solid rgb(224, 224, 224)\",\"borderTop\":\"1px solid rgb(224, 224, 224)\",\"borderRight\":\"1px solid rgb(224, 224, 224)\",\"borderBottom\":\"1px solid rgb(224, 224, 224)\",\"borderLeft\":\"1px solid rgb(224, 224, 224)\",\"borderRadius\":\"8px\",\"borderWidth\":\"1px\",\"borderColor\":\"rgb(224, 224, 224)\",\"borderStyle\":\"solid\",\"borderTopWidth\":\"1px\",\"borderTopColor\":\"rgb(224, 224, 224)\",\"borderTopStyle\":\"solid\",\"borderRightWidth\":\"1px\",\"borderRightColor\":\"rgb(224, 224, 224)\",\"borderRightStyle\":\"solid\",\"borderBottomWidth\":\"1px\",\"borderBottomColor\":\"rgb(224, 224, 224)\",\"borderBottomStyle\":\"solid\",\"borderLeftWidth\":\"1px\",\"borderLeftColor\":\"rgb(224, 224, 224)\",\"borderLeftStyle\":\"solid\",\"borderTopLeftRadius\":\"8px\",\"borderTopRightRadius\":\"8px\",\"borderBottomRightRadius\":\"8px\",\"borderBottomLeftRadius\":\"8px\",\"outline\":\"3px none rgb(17, 17, 17)\",\"outlineOffset\":\"0px\",\"boxShadow\":\"none\"},\".Label\":{\"color\":\"rgb(170, 170, 170)\",\"padding\":\"0px\",\"paddingTop\":\"0px\",\"paddingRight\":\"0px\",\"paddingBottom\":\"0px\",\"paddingLeft\":\"0px\",\"fontFamily\":\"Jost\",\"fontSize\":\"10px\",\"lineHeight\":\"12px\",\"letterSpacing\":\"0.8px\",\"fontWeight\":\"700\",\"textDecoration\":\"none\",\"textShadow\":\"none\",\"textTransform\":\"uppercase\",\"-webkit-font-smoothing\":\"antialiased\",\"transition\":\"all\"},\".Label--resting\":{\"fontSize\":\"10px\"},\".Block\":{\"padding\":\"0px\",\"paddingTop\":\"0px\",\"paddingRight\":\"0px\",\"paddingBottom\":\"0px\",\"paddingLeft\":\"0px\",\"border\":\"0px none rgb(170, 170, 170)\",\"borderTop\":\"0px none rgb(170, 170, 170)\",\"borderRight\":\"0px none rgb(170, 170, 170)\",\"borderBottom\":\"0px none rgb(170, 170, 170)\",\"borderLeft\":\"0px none rgb(170, 170, 170)\",\"borderRadius\":\"0px\",\"borderWidth\":\"0px\",\"borderColor\":\"rgb(170, 170, 170)\",\"borderStyle\":\"none\",\"borderTopWidth\":\"0px\",\"borderTopColor\":\"rgb(170, 170, 170)\",\"borderTopStyle\":\"none\",\"borderRightWidth\":\"0px\",\"borderRightColor\":\"rgb(170, 170, 170)\",\"borderRightStyle\":\"none\",\"borderBottomWidth\":\"0px\",\"borderBottomColor\":\"rgb(170, 170, 170)\",\"borderBottomStyle\":\"none\",\"borderLeftWidth\":\"0px\",\"borderLeftColor\":\"rgb(170, 170, 170)\",\"borderLeftStyle\":\"none\",\"borderTopLeftRadius\":\"0px\",\"borderTopRightRadius\":\"0px\",\"borderBottomRightRadius\":\"0px\",\"borderBottomLeftRadius\":\"0px\",\"outline\":\"rgb(170, 170, 170) none 3px\",\"outlineOffset\":\"0px\",\"boxShadow\":\"none\",\"backgroundColor\":\"rgb(255, 255, 255)\"},\".Tab\":{\"backgroundColor\":\"rgb(255, 255, 255)\",\"color\":\"rgb(17, 17, 17)\",\"fontFamily\":\"Jost, sans-serif\"},\".Tab:hover\":{\"backgroundColor\":\"rgb(237, 237, 237)\",\"color\":\"rgb(17, 17, 17)\",\"fontFamily\":\"Jost, sans-serif\"},\".Tab--selected\":{\"backgroundColor\":\"rgb(255, 255, 255)\",\"color\":\"rgb(17, 17, 17)\",\"border\":\"1px solid rgb(224, 224, 224)\",\"borderTop\":\"1px solid rgb(224, 224, 224)\",\"borderRight\":\"1px solid rgb(224, 224, 224)\",\"borderBottom\":\"1px solid rgb(224, 224, 224)\",\"borderLeft\":\"1px solid rgb(224, 224, 224)\",\"borderRadius\":\"8px\",\"borderWidth\":\"1px\",\"borderColor\":\"rgb(224, 224, 224)\",\"borderStyle\":\"solid\",\"borderTopWidth\":\"1px\",\"borderTopColor\":\"rgb(224, 224, 224)\",\"borderTopStyle\":\"solid\",\"borderRightWidth\":\"1px\",\"borderRightColor\":\"rgb(224, 224, 224)\",\"borderRightStyle\":\"solid\",\"borderBottomWidth\":\"1px\",\"borderBottomColor\":\"rgb(224, 224, 224)\",\"borderBottomStyle\":\"solid\",\"borderLeftWidth\":\"1px\",\"borderLeftColor\":\"rgb(224, 224, 224)\",\"borderLeftStyle\":\"solid\",\"borderTopLeftRadius\":\"8px\",\"borderTopRightRadius\":\"8px\",\"borderBottomRightRadius\":\"8px\",\"borderBottomLeftRadius\":\"8px\",\"outline\":\"3px none rgb(17, 17, 17)\",\"outlineOffset\":\"0px\",\"boxShadow\":\"none\"},\".TabIcon:hover\":{\"color\":\"rgb(17, 17, 17)\"},\".TabIcon--selected\":{\"color\":\"rgb(17, 17, 17)\"},\".Text\":{\"color\":\"rgb(81, 81, 81)\",\"padding\":\"0px\",\"paddingTop\":\"0px\",\"paddingRight\":\"0px\",\"paddingBottom\":\"0px\",\"paddingLeft\":\"0px\",\"fontFamily\":\"Jost\",\"fontSize\":\"14.72px\",\"lineHeight\":\"22.08px\",\"letterSpacing\":\"0.5px\",\"fontWeight\":\"400\",\"textDecoration\":\"none\",\"textShadow\":\"none\",\"textTransform\":\"none\",\"-webkit-font-smoothing\":\"antialiased\",\"transition\":\"all\"},\".Text--redirect\":{\"color\":\"rgb(81, 81, 81)\",\"padding\":\"0px\",\"paddingTop\":\"0px\",\"paddingRight\":\"0px\",\"paddingBottom\":\"0px\",\"paddingLeft\":\"0px\",\"fontFamily\":\"Jost\",\"fontSize\":\"14.72px\",\"lineHeight\":\"22.08px\",\"letterSpacing\":\"0.5px\",\"fontWeight\":\"400\",\"textDecoration\":\"none\",\"textShadow\":\"none\",\"textTransform\":\"none\",\"-webkit-font-smoothing\":\"antialiased\",\"transition\":\"all\"}}}}"
+        }
+      ]
+    }
+  ]
+}
