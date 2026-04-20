@@ -1,0 +1,28 @@
+/*
+Theme Name: Scent Gallery
+Theme URI: https://github.com/mykat324towns/Scent-Gallery-Web
+Description: Premium fragrance ecommerce theme built for Scent Gallery
+Version: 1.0.0
+Author: Jaxson Yancy
+Author URI: https://scentgallery.com
+License: GPL v2 or later
+Text Domain: scent-gallery
+Domain Path: /languages
+Requires at least: 5.9
+Tested up to: 6.4
+Requires PHP: 7.4
+*/
+
+/* Design System & Base Styles */
+@import url('./assets/css/tokens.css');
+@import url('./assets/css/base.css');
+
+/* Components */
+@import url('./assets/css/announcement-bar.css');
+@import url('./assets/css/nav.css');
+@import url('./assets/css/hero.css');
+@import url('./assets/css/collection-grid.css');
+@import url('./assets/css/product-card.css');
+@import url('./assets/css/testimonial-card.css');
+@import url('./assets/css/cta-section.css');
+@import url('./assets/css/footer.css');
