@@ -7,8 +7,17 @@
   const loading = document.getElementById('product-loading');
   const error = document.getElementById('product-error');
 
-  function formatPrice(cents) {
-    return '$' + (cents / 100).toFixed(2);
+  function formatPrice(prices) {
+    if (!prices) return '';
+    const symbol  = prices.currency_symbol || '$';
+    const minor   = prices.currency_minor_unit ?? 2;
+    const divisor = Math.pow(10, minor);
+    if (prices.price_range) {
+      const min = (parseInt(prices.price_range.min_amount, 10) / divisor).toFixed(minor);
+      return 'From ' + symbol + min;
+    }
+    const amount = (parseInt(prices.price, 10) / divisor).toFixed(minor);
+    return symbol + amount;
   }
 
   function getSlugFromUrl() {
@@ -54,11 +63,49 @@
     }
   }
 
+  async function fetchVariations(productId) {
+    try {
+      const res = await fetch(getApiUrl('/variations') + '?id=' + encodeURIComponent(productId));
+      if (!res.ok) throw new Error('variations API error: ' + res.status);
+      return await res.json();
+    } catch (err) {
+      console.error('[product-page] variations fetch failed:', err);
+      return [];
+    }
+  }
+
+  function buildSizeSelector(variations, fallbackPrices) {
+    if (!variations || variations.length === 0) return '';
+    const pills = variations.map(function (v, i) {
+      const attr   = v.attributes.find(function (a) { return a.name.toLowerCase() === 'size'; });
+      const label  = attr ? sanitizeHtml(attr.option) : 'Option ' + (i + 1);
+      const prices = v.prices || fallbackPrices || {};
+      const minor  = prices.currency_minor_unit ?? 2;
+      const div    = Math.pow(10, minor);
+      const sym    = prices.currency_symbol || '$';
+      const amt    = prices.price ? (parseInt(prices.price, 10) / div).toFixed(minor) : '';
+      const oos    = !v.in_stock;
+      return '<button' +
+        ' class="size-pill' + (i === 0 ? ' size-pill--active' : '') + (oos ? ' size-pill--oos' : '') + '"' +
+        ' data-variation-id="' + v.id + '"' +
+        ' data-price="' + (prices.price || '') + '"' +
+        ' data-minor-unit="' + minor + '"' +
+        ' data-symbol="' + sym + '"' +
+        (oos ? ' disabled title="Out of stock"' : '') +
+        ' style="padding:8px 14px;border:1px solid var(--color-border);border-radius:6px;cursor:' + (oos ? 'not-allowed' : 'pointer') + ';background:' + (i === 0 ? 'var(--color-primary)' : 'transparent') + ';color:' + (i === 0 ? 'white' : 'var(--color-on-surface)') + ';font-size:12px;font-weight:600;line-height:1.4;opacity:' + (oos ? '0.4' : '1') + ';"' +
+        '>' + label + (amt ? '<br><span style="font-weight:400;font-size:11px;">' + sym + amt + '</span>' : '') + '</button>';
+    }).join('');
+    return '<div id="size-selector" style="margin-bottom:var(--space-6);">' +
+      '<p style="font-size:12px;font-weight:600;color:var(--color-on-surface-muted);margin-bottom:8px;">SELECT SIZE</p>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:8px;">' + pills + '</div>' +
+      '</div>';
+  }
+
   function renderProduct(product) {
     const images = product.images || [];
     const mainImage = images[0]?.src || '';
     const galleryImages = images.slice(1);
-    const price = product.price ? parseInt(product.price, 10) : 0;
+    const prices = product.prices || null;
     const description = product.description || '';
 
     // Create breadcrumb + main layout
@@ -101,8 +148,8 @@
             ${sanitizeHtml(product.name)}
           </h1>
 
-          <div style="font-size: 24px; font-weight: 600; color: var(--color-primary); margin-bottom: var(--space-6);">
-            ${formatPrice(price)}
+          <div id="product-price-display" style="font-size: 24px; font-weight: 600; color: var(--color-primary); margin-bottom: var(--space-6);">
+            ${formatPrice(prices)}
           </div>
 
           ${description ? `
@@ -111,11 +158,14 @@
             </div>
           ` : ''}
 
-          <div style="display: flex; gap: var(--space-3); margin-bottom: var(--space-8);">
-            <a
-              href="${window.SG_CONFIG.shopUrl}/product/${product.slug}/"
+          <div id="size-selector-mount" style="margin-bottom: var(--space-6);"></div>
+
+          <div style="display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-8);">
+            <button
+              id="add-to-cart-btn"
+              disabled
               style="
-                flex: 1;
+                width: 100%;
                 padding: var(--space-3) var(--space-4);
                 background: var(--color-primary);
                 color: white;
@@ -123,16 +173,16 @@
                 border-radius: 7px;
                 font-size: 14px;
                 font-weight: 600;
-                cursor: pointer;
-                text-decoration: none;
-                text-align: center;
-                transition: background var(--duration-fast) var(--ease-standard);
+                cursor: not-allowed;
+                opacity: 0.6;
+                transition: background var(--duration-fast) var(--ease-standard), opacity var(--duration-fast) var(--ease-standard);
               "
-              onmouseover="this.style.background='var(--color-primary-dark)'"
-              onmouseout="this.style.background='var(--color-primary)'"
-            >
-              View on Store
-            </a>
+            >Select a size</button>
+            <a
+              href="${window.SG_CONFIG.shopUrl}/product/${product.slug}/"
+              style="font-size:12px;color:var(--color-on-surface-muted);text-decoration:underline;text-align:center;display:block;"
+              target="_blank" rel="noopener"
+            >View on store</a>
           </div>
 
           <div style="background: var(--color-warm-sage-light); padding: var(--space-4); border-radius: var(--radius-md); font-size: 12px; color: var(--color-warm-sage); line-height: 1.6;">
@@ -148,6 +198,56 @@
 
     container.innerHTML = html;
     loading.style.display = 'none';
+
+    // Variations
+    window._selectedVariationId = null;
+
+    if (product.variations && product.variations.length > 0) {
+      var mount = document.getElementById('size-selector-mount');
+      if (mount) mount.innerHTML = '<p style="font-size:12px;color:var(--color-on-surface-muted);">Loading sizes...</p>';
+
+      fetchVariations(product.id).then(function (variations) {
+        var mount = document.getElementById('size-selector-mount');
+        if (!mount) return;
+
+        mount.innerHTML = buildSizeSelector(variations, product.prices);
+
+        mount.querySelectorAll('.size-pill').forEach(function (pill) {
+          pill.addEventListener('click', function () {
+            if (pill.disabled) return;
+
+            mount.querySelectorAll('.size-pill').forEach(function (p) {
+              p.style.background = 'transparent';
+              p.style.color = 'var(--color-on-surface)';
+            });
+            pill.style.background = 'var(--color-primary)';
+            pill.style.color = 'white';
+
+            window._selectedVariationId = pill.dataset.variationId;
+
+            var priceDisplay = document.getElementById('product-price-display');
+            if (priceDisplay && pill.dataset.price) {
+              var minor   = parseInt(pill.dataset.minorUnit, 10) || 2;
+              var divisor = Math.pow(10, minor);
+              var symbol  = pill.dataset.symbol || '$';
+              var amount  = (parseInt(pill.dataset.price, 10) / divisor).toFixed(minor);
+              priceDisplay.textContent = symbol + amount;
+            }
+
+            var addBtn = document.getElementById('add-to-cart-btn');
+            if (addBtn) {
+              addBtn.disabled = false;
+              addBtn.style.cursor = 'pointer';
+              addBtn.style.opacity = '1';
+              addBtn.textContent = 'Add to Cart';
+            }
+          });
+        });
+
+        var first = mount.querySelector('.size-pill:not([disabled])');
+        if (first) first.click();
+      });
+    }
 
     // Attach gallery thumb listeners
     document.querySelectorAll('.gallery-thumb').forEach(thumb => {
