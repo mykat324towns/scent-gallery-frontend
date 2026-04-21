@@ -74,29 +74,26 @@
     }
   }
 
-  function buildSizeSelector(variations, fallbackPrices) {
+  function buildSizeSelector(variations) {
     if (!variations || variations.length === 0) return '';
-    const pills = variations.map(function (v, i) {
-      const attr   = v.attributes.find(function (a) { return a.name.toLowerCase() === 'size'; });
-      const label  = attr ? sanitizeHtml(attr.option) : 'Option ' + (i + 1);
-      const prices = v.prices || fallbackPrices || {};
-      const minor  = prices.currency_minor_unit ?? 2;
-      const div    = Math.pow(10, minor);
-      const sym    = prices.currency_symbol || '$';
-      const amt    = prices.price ? (parseInt(prices.price, 10) / div).toFixed(minor) : '';
-      const oos    = !v.in_stock;
+    // Sort by ml value ascending
+    const sorted = variations.slice().sort(function (a, b) {
+      const aVal = parseFloat((a.attributes[0] && a.attributes[0].value) || '0');
+      const bVal = parseFloat((b.attributes[0] && b.attributes[0].value) || '0');
+      return aVal - bVal;
+    });
+    const pills = sorted.map(function (v, i) {
+      // Attribute value holds the size (e.g. "10ml") regardless of attribute name
+      const raw   = (v.attributes[0] && v.attributes[0].value) || ('Option ' + (i + 1));
+      const label = sanitizeHtml(raw.toUpperCase());
       return '<button' +
-        ' class="size-pill' + (i === 0 ? ' size-pill--active' : '') + (oos ? ' size-pill--oos' : '') + '"' +
+        ' class="size-pill' + (i === 0 ? ' size-pill--active' : '') + '"' +
         ' data-variation-id="' + v.id + '"' +
-        ' data-price="' + (prices.price || '') + '"' +
-        ' data-minor-unit="' + minor + '"' +
-        ' data-symbol="' + sym + '"' +
-        (oos ? ' disabled title="Out of stock"' : '') +
-        ' style="padding:8px 14px;border:1px solid var(--color-border);border-radius:6px;cursor:' + (oos ? 'not-allowed' : 'pointer') + ';background:' + (i === 0 ? 'var(--color-primary)' : 'transparent') + ';color:' + (i === 0 ? 'white' : 'var(--color-on-surface)') + ';font-size:12px;font-weight:600;line-height:1.4;opacity:' + (oos ? '0.4' : '1') + ';"' +
-        '>' + label + (amt ? '<br><span style="font-weight:400;font-size:11px;">' + sym + amt + '</span>' : '') + '</button>';
+        ' style="padding:8px 18px;border:1px solid var(--color-border);border-radius:6px;cursor:pointer;background:' + (i === 0 ? 'var(--color-primary)' : 'transparent') + ';color:' + (i === 0 ? 'white' : 'var(--color-on-surface)') + ';font-size:12px;font-weight:600;letter-spacing:0.05em;"' +
+        '>' + label + '</button>';
     }).join('');
     return '<div id="size-selector" style="margin-bottom:var(--space-6);">' +
-      '<p style="font-size:12px;font-weight:600;color:var(--color-on-surface-muted);margin-bottom:8px;">SELECT SIZE</p>' +
+      '<p style="font-size:12px;font-weight:600;color:var(--color-on-surface-muted);margin-bottom:8px;letter-spacing:0.08em;">SELECT SIZE</p>' +
       '<div style="display:flex;flex-wrap:wrap;gap:8px;">' + pills + '</div>' +
       '</div>';
   }
@@ -199,54 +196,39 @@
     container.innerHTML = html;
     loading.style.display = 'none';
 
-    // Variations
+    // Variations — data is already in product.variations, no separate fetch needed
     window._selectedVariationId = null;
 
     if (product.variations && product.variations.length > 0) {
       var mount = document.getElementById('size-selector-mount');
-      if (mount) mount.innerHTML = '<p style="font-size:12px;color:var(--color-on-surface-muted);">Loading sizes...</p>';
+      if (!mount) return;
 
-      fetchVariations(product.id).then(function (variations) {
-        var mount = document.getElementById('size-selector-mount');
-        if (!mount) return;
+      mount.innerHTML = buildSizeSelector(product.variations);
 
-        mount.innerHTML = buildSizeSelector(variations, product.prices);
-
-        mount.querySelectorAll('.size-pill').forEach(function (pill) {
-          pill.addEventListener('click', function () {
-            if (pill.disabled) return;
-
-            mount.querySelectorAll('.size-pill').forEach(function (p) {
-              p.style.background = 'transparent';
-              p.style.color = 'var(--color-on-surface)';
-            });
-            pill.style.background = 'var(--color-primary)';
-            pill.style.color = 'white';
-
-            window._selectedVariationId = pill.dataset.variationId;
-
-            var priceDisplay = document.getElementById('product-price-display');
-            if (priceDisplay && pill.dataset.price) {
-              var minor   = parseInt(pill.dataset.minorUnit, 10) || 2;
-              var divisor = Math.pow(10, minor);
-              var symbol  = pill.dataset.symbol || '$';
-              var amount  = (parseInt(pill.dataset.price, 10) / divisor).toFixed(minor);
-              priceDisplay.textContent = symbol + amount;
-            }
-
-            var addBtn = document.getElementById('add-to-cart-btn');
-            if (addBtn) {
-              addBtn.disabled = false;
-              addBtn.style.cursor = 'pointer';
-              addBtn.style.opacity = '1';
-              addBtn.textContent = 'Add to Cart';
-            }
+      mount.querySelectorAll('.size-pill').forEach(function (pill) {
+        pill.addEventListener('click', function () {
+          mount.querySelectorAll('.size-pill').forEach(function (p) {
+            p.style.background = 'transparent';
+            p.style.color = 'var(--color-on-surface)';
           });
-        });
+          pill.style.background = 'var(--color-primary)';
+          pill.style.color = 'white';
 
-        var first = mount.querySelector('.size-pill:not([disabled])');
-        if (first) first.click();
+          window._selectedVariationId = pill.dataset.variationId;
+
+          var addBtn = document.getElementById('add-to-cart-btn');
+          if (addBtn) {
+            addBtn.disabled = false;
+            addBtn.style.cursor = 'pointer';
+            addBtn.style.opacity = '1';
+            addBtn.textContent = 'Add to Cart';
+          }
+        });
       });
+
+      // Auto-select first pill
+      var first = mount.querySelector('.size-pill');
+      if (first) first.click();
     }
 
     // Attach gallery thumb listeners
