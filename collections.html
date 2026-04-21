@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop — Scent Gallery</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Figtree:wght@400;500;600;700&display=swap">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/announcement-bar.css">
+  <link rel="stylesheet" href="assets/css/nav.css">
+  <link rel="stylesheet" href="assets/css/collection-grid.css">
+  <link rel="stylesheet" href="assets/css/product-card.css">
+  <link rel="stylesheet" href="assets/css/footer.css">
+
+  <style>
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0;
+      margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+      white-space: nowrap; border-width: 0;
+    }
+
+    .announcement-bar { background: var(--color-bg-alt); border-bottom: 1px solid rgba(0,0,0,0.08); }
+    .announcement-bar__text, .announcement-bar__dismiss { color: var(--color-on-surface); }
+    .announcement-bar strong { color: var(--color-primary); }
+
+    .nav__logo { color: var(--color-on-surface); }
+    .nav__link { color: var(--color-on-surface-muted); }
+    .nav__link:hover { color: var(--color-on-surface); }
+    .nav__drawer-panel { background: var(--color-surface); border-left: 1px solid var(--color-border); }
+    .nav__drawer-link { color: var(--color-on-surface); }
+    .nav__drawer-close { color: var(--color-on-surface-muted); }
+    .nav__cart-icon { stroke: var(--color-on-surface); }
+    .nav__hamburger span { background: var(--color-on-surface); }
+
+    .nav__search {
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer; padding: 8px;
+      color: var(--color-on-surface-muted);
+      transition: color var(--duration-fast) var(--ease-standard);
+    }
+    .nav__search:hover { color: var(--color-on-surface); }
+    .nav__search-icon { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+    .collection__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: var(--space-6);
+      padding: var(--space-8) var(--space-4);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .collection__heading {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 600;
+      padding: var(--space-8) var(--space-4) 0;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .collection__grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: var(--space-4);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="announcement-bar" class="announcement-bar">
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 0 var(--space-4); height: 40px; font-size: 12px;">
+    <span class="announcement-bar__text" style="flex: 1;">🎁 <strong>Free shipping</strong> on orders over $50 · Discreet packaging</span>
+    <button class="announcement-bar__dismiss" style="background: none; border: none; cursor: pointer; padding: 0; font-size: 18px;">✕</button>
+  </div>
+</div>
+
+<nav class="nav">
+  <div style="display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 var(--space-4);">
+    <a href="/" class="nav__logo" style="font-family: var(--font-display); font-size: 18px; font-weight: 600; text-decoration: none;">SCENT GALLERY</a>
+
+    <div style="display: flex; align-items: center; gap: var(--space-3); flex: 1; justify-content: flex-end;">
+      <button class="nav__search" title="Search">
+        <svg class="nav__search-icon" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+      </button>
+      <a href="#" class="nav__cart" style="display: flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
+        <svg class="nav__cart-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/>
+          <circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+      </a>
+    </div>
+
+    <button class="nav__hamburger" style="display: none; background: none; border: none; cursor: pointer; padding: 8px;">
+      <span style="display: block; width: 24px; height: 2px; margin: 6px 0; transition: all 0.3s;"></span>
+      <span style="display: block; width: 24px; height: 2px; margin: 6px 0; transition: all 0.3s;"></span>
+      <span style="display: block; width: 24px; height: 2px; margin: 6px 0; transition: all 0.3s;"></span>
+    </button>
+  </div>
+
+  <div class="nav__drawer" style="display: none; position: fixed; top: 0; right: 0; bottom: 0; width: 280px; z-index: 999; background: var(--color-surface);">
+    <div class="nav__drawer-panel" style="display: flex; flex-direction: column; height: 100%; overflow-y: auto;">
+      <button class="nav__drawer-close" style="align-self: flex-end; background: none; border: none; cursor: pointer; padding: var(--space-4); font-size: 24px;">✕</button>
+    </div>
+    <div class="nav__drawer-overlay" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.2);"></div>
+  </div>
+</nav>
+
+<h1 class="collection__heading">Shop All</h1>
+
+<div id="collection-grid" class="collection__grid"></div>
+
+<div id="collection-loading" style="text-align: center; padding: var(--space-12); display: none;">
+  <p style="color: var(--color-on-surface-muted);">Loading products...</p>
+</div>
+
+<div id="collection-error" style="text-align: center; padding: var(--space-12); display: none;">
+  <p style="color: var(--color-error, #d32f2f);">Failed to load products</p>
+</div>
+
+<footer style="background: var(--color-bg-alt); border-top: 1px solid var(--color-border); margin-top: var(--space-12); padding: var(--space-8) var(--space-4);">
+  <div style="max-width: 1200px; margin: 0 auto; text-align: center; color: var(--color-on-surface-muted); font-size: 12px;">
+    <p>&copy; 2026 Scent Gallery. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+window.SG_CONFIG = {
+  apiBase: '/api',
+  shopUrl: 'https://scentgallery.shop',
+};
+
+function getApiUrl(path) {
+  return window.SG_CONFIG.apiBase + path;
+}
+</script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/collections.js"></script>
+</body>
+</html>

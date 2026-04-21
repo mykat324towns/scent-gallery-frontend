@@ -1,0 +1,33 @@
+/* Product Page Styles */
+
+#product-container {
+  min-height: 60vh;
+}
+
+#product-content {
+  opacity: 1;
+  animation: fadeIn 0.3s var(--ease-standard);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Gallery gallery-thumb interactive */
+.gallery-thumb {
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.gallery-thumb:hover {
+  border-color: var(--color-on-surface-muted) !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #product-content {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: var(--space-6) !important;
+  }
+}
