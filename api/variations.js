@@ -1,26 +1,38 @@
 const BASE = 'https://scentgallery.shop/wp-json/wc/store/v1/products';
 
 export default async function handler(req, res) {
-  const { id } = req.query;
+  // Accept ?ids=101,102,103 — comma-separated variation product IDs
+  const { ids } = req.query;
 
-  if (!id || !/^\d+$/.test(id)) {
-    return res.status(400).json({ error: 'missing_or_invalid_id' });
+  if (!ids) {
+    return res.status(400).json({ error: 'missing_ids' });
   }
 
-  const url = `${BASE}/${id}/variations`;
+  const idList = ids.split(',')
+    .map(s => s.trim())
+    .filter(s => /^\d+$/.test(s))
+    .map(Number);
+
+  if (idList.length === 0) {
+    return res.status(400).json({ error: 'no_valid_ids' });
+  }
 
   try {
-    const upstream = await fetch(url, {
-      headers: { 'User-Agent': 'ScentGalleryProxy/1.0' },
-    });
-
-    const body = await upstream.text();
+    const results = await Promise.all(
+      idList.map(async (id) => {
+        const r = await fetch(`${BASE}/${id}`, {
+          headers: { 'User-Agent': 'ScentGalleryProxy/1.0' },
+        });
+        if (!r.ok) return null;
+        return r.json();
+      })
+    );
 
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Content-Type', upstream.headers.get('content-type') || 'application/json');
-    res.status(upstream.status).send(body);
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(results.filter(Boolean));
   } catch (err) {
-    console.error('[proxy/variations] fetch failed:', err.message, { url });
+    console.error('[proxy/variations] fetch failed:', err.message);
     res.status(502).json({ error: 'proxy_error', message: err.message });
   }
 }

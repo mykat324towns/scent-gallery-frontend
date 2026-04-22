@@ -652,49 +652,8 @@ window.SG_CONFIG = {
   shopUrl: 'https://scentgallery.shop',
 };
 
-function getApiUrl(path) {
-  return window.SG_CONFIG.apiBase + path;
-}
-
-// Biancco Latte — hardcoded demo data
-window.DEMO_PRODUCT = {
-  id: 9999,
-  slug: 'biancco-latte',
-  name: 'Biancco Latte',
-  description: 'Warm, creamy vanilla wrapped in white musk and soft sandalwood. A skin-close scent that lingers effortlessly — perfect for everyday wear.',
-  short_description: '<p>Vanilla · White Musk · Sandalwood<br />\nWarm, creamy vanilla wrapped in soft white musk and smooth sandalwood. Rich without being heavy — like cashmere on skin.<br />\nBest for: Evening wear, date nights, cold weather, anyone who wants a cozy signature scent.</p>',
-  images: [{ src: 'https://scentgallery.shop/wp-content/uploads/2025/11/img_9707.avif' }],
-  prices: { currency_symbol: '$', currency_minor_unit: 2, price: '1299' },
-  // supportsPressurized: products that have a pressurized add-on available
-  supportsPressurized: true,
-  variations: [
-    {
-      id: 1,
-      attributes: [{ name: 'Size', value: '1ml' }],
-      prices: { currency_symbol: '$', currency_minor_unit: 2, price: '399' }
-    },
-    {
-      id: 2,
-      attributes: [{ name: 'Size', value: '2ml' }],
-      prices: { currency_symbol: '$', currency_minor_unit: 2, price: '599' }
-    },
-    {
-      id: 3,
-      attributes: [{ name: 'Size', value: '5ml' }],
-      prices: { currency_symbol: '$', currency_minor_unit: 2, price: '999' }
-    },
-    {
-      id: 4,
-      attributes: [{ name: 'Size', value: '10ml' }],
-      prices: { currency_symbol: '$', currency_minor_unit: 2, price: '1299' }
-    },
-    {
-      id: 5,
-      attributes: [{ name: 'Size', value: '30ml' }],
-      prices: { currency_symbol: '$', currency_minor_unit: 2, price: '2499' }
-    }
-  ]
-};
+// Fallback slug for when product.html is opened without a ?slug= param
+window.DEMO_SLUG = 'gd-biancco-latte';
 </script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/product-page.js"></script>
