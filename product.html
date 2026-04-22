@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scent Gallery — Product</title>
+  <title>Scent Gallery — Biancco Latte (Demo)</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Figtree:wght@400;500;600;700&display=swap">
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 
   <link rel="stylesheet" href="assets/css/tokens.css">
   <link rel="stylesheet" href="assets/css/base.css">
   <link rel="stylesheet" href="assets/css/announcement-bar.css">
   <link rel="stylesheet" href="assets/css/nav.css">
   <link rel="stylesheet" href="assets/css/product-page.css">
+  <link rel="stylesheet" href="assets/css/product-card.css">
   <link rel="stylesheet" href="assets/css/footer.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 
   <style>
     .sr-only {
@@ -24,7 +24,6 @@
       margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
       white-space: nowrap; border-width: 0;
     }
-
     .announcement-bar { background: var(--color-bg-alt); border-bottom: 1px solid rgba(0,0,0,0.08); }
     .announcement-bar__text, .announcement-bar__dismiss { color: var(--color-on-surface); }
     .announcement-bar strong { color: var(--color-primary); }
@@ -46,72 +45,607 @@
     }
     .nav__search:hover { color: var(--color-on-surface); }
     .nav__search-icon { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+    /* ── You May Also Like section ── */
+    #pdp-also-like {
+      padding-block: var(--space-10);
+      border-top: 1px solid var(--color-border);
+    }
+    #pdp-also-like .collection__title {
+      font-family: var(--font-display);
+      font-size: var(--text-h3);
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -0.01em;
+      color: var(--color-on-surface);
+      margin-bottom: var(--space-6);
+    }
+    /* Desktop: horizontal scroll strip */
+    #pdp-also-like .collection__grid {
+      display: flex;
+      gap: var(--space-3);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: var(--space-4);
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    #pdp-also-like .collection__grid::-webkit-scrollbar { display: none; }
+    #pdp-also-like .collection__grid .product-card {
+      flex: 0 0 220px;
+      scroll-snap-align: start;
+    }
+    /* Carousel scrollbar */
+    .carousel-track { position: relative; }
+    .carousel-scroll-bar {
+      position: relative; width: 100%; height: 4px;
+      background: rgba(0,0,0,0.06); border-radius: 2px;
+      margin-top: var(--space-2); cursor: pointer;
+    }
+    .carousel-scroll-bar__thumb {
+      position: absolute; height: 4px;
+      background: var(--color-on-surface); border-radius: 2px; top: 0;
+      cursor: grab; touch-action: none;
+      transition: background-color var(--duration-fast) var(--ease-standard);
+    }
+    .carousel-scroll-bar__thumb:active { background: var(--color-primary); cursor: grabbing; }
+    /* Mobile: show Swiper, hide grid */
+    @media (max-width: 768px) {
+      #pdp-also-like .collection__grid { display: none; }
+      #pdp-also-like .collection__swiper { display: block; }
+      #pdp-also-like .swiper { overflow: hidden; }
+      #pdp-also-like .swiper-wrapper { display: flex; gap: 14px; }
+      #pdp-also-like .swiper-slide {
+        width: auto;
+        flex: 0 0 calc(50vw - 20px);
+      }
+      #pdp-also-like .swiper-pagination { display: none; }
+    }
+    /* Desktop: show grid, hide Swiper */
+    @media (min-width: 769px) {
+      #pdp-also-like .collection__swiper,
+      #pdp-also-like .carousel-scroll-bar { display: none; }
+      #pdp-also-like .collection__grid { display: flex; }
+    }
+    /* Size pills in recommendation cards */
+    #pdp-also-like .product-card__sizes {
+      display: flex; flex-wrap: wrap; gap: 4px; margin-top: var(--space-1);
+    }
+    #pdp-also-like .size-pill {
+      font-family: var(--font-body); font-size: 10px; font-weight: 500;
+      color: var(--color-on-surface-muted);
+      background: var(--color-bg-alt); border: 1px solid var(--color-border);
+      border-radius: var(--radius-pill); padding: 2px 7px; cursor: pointer;
+      transition: background var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+    }
+    #pdp-also-like .size-pill--active,
+    #pdp-also-like .size-pill:hover {
+      background: var(--color-primary); color: var(--color-bg);
+      border-color: var(--color-primary);
+    }
+    #pdp-also-like .pill-info {
+      font-family: var(--font-body); font-size: var(--text-caption);
+      color: var(--color-on-surface-muted);
+    }
+    #pdp-also-like .product-card__brand {
+      font-family: var(--font-body); font-size: var(--text-caption); font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--color-on-surface-muted); margin-bottom: 2px;
+    }
+
+    @media (max-width: 768px) {
+      #product-container { padding: var(--space-6) var(--space-4) !important; }
+      #pdp-also-like { padding-block: var(--space-6); }
+    }
+
+    /* Demo banner */
+    .demo-banner {
+      background: var(--color-warm-amber);
+      color: white;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 6px var(--space-4);
+    }
   </style>
 </head>
 <body>
 
-<div id="announcement-bar" class="announcement-bar">
-  <div style="display: flex; align-items: center; justify-content: space-between; padding: 0 var(--space-4); height: 40px; font-size: 12px;">
-    <span class="announcement-bar__text" style="flex: 1;">🎁 <strong>Free shipping</strong> on orders over $50 · Discreet packaging</span>
-    <button class="announcement-bar__dismiss" style="background: none; border: none; cursor: pointer; padding: 0; font-size: 18px;">✕</button>
+<div class="demo-banner">LOCAL DEMO — Biancco Latte — Not for deployment</div>
+
+<div class="announcement-bar" id="announcement-bar" role="banner" aria-label="Promotional announcement">
+  <div class="container announcement-bar__inner">
+    <p class="announcement-bar__text"><strong>Free shipping</strong> on orders over $50 · Discreet packaging</p>
+    <button class="announcement-bar__dismiss" aria-label="Dismiss announcement" onclick="this.closest('.announcement-bar').classList.add('is-hidden')">&#215;</button>
   </div>
 </div>
 
-<nav class="nav">
-  <div style="display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 var(--space-4);">
-    <a href="/" class="nav__logo" style="font-family: var(--font-display); font-size: 18px; font-weight: 600; text-decoration: none;">SCENT GALLERY</a>
-
-    <div style="display: flex; align-items: center; gap: var(--space-3); flex: 1; justify-content: flex-end;">
-      <a href="/collections.html" class="nav__link" style="text-decoration: none; font-size: 14px;">Shop</a>
-      <button class="nav__search" title="Search">
-        <svg class="nav__search-icon" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.35-4.35"></path>
-        </svg>
-      </button>
-      <a href="#" class="nav__cart" style="display: flex; align-items: center; justify-content: center; padding: 8px; text-decoration: none;">
-        <svg class="nav__cart-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="21" r="1"/>
-          <circle cx="20" cy="21" r="1"/>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-        </svg>
-      </a>
-    </div>
-
-    <button class="nav__hamburger" style="display: none; background: none; border: none; cursor: pointer; padding: 8px;">
-      <span style="display: block; width: 24px; height: 2px; margin: 6px 0; transition: all 0.3s;"></span>
-      <span style="display: block; width: 24px; height: 2px; margin: 6px 0; transition: all 0.3s;"></span>
-      <span style="display: block; width: 24px; height: 2px; margin: 6px 0; transition: all 0.3s;"></span>
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="container nav__inner">
+    <ul class="nav__links-left" role="list">
+      <li><a href="/collections.html" class="nav__link">Shop</a></li>
+    </ul>
+    <button class="nav__hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer">
+      <span></span><span></span><span></span>
     </button>
-  </div>
-
-  <div class="nav__drawer" style="display: none; position: fixed; top: 0; right: 0; bottom: 0; width: 280px; z-index: 999; background: var(--color-surface);">
-    <div class="nav__drawer-panel" style="display: flex; flex-direction: column; height: 100%; overflow-y: auto;">
-      <button class="nav__drawer-close" style="align-self: flex-end; background: none; border: none; cursor: pointer; padding: var(--space-4); font-size: 24px;">✕</button>
-      <a class="nav__drawer-link" href="/collections.html" style="padding: var(--space-4); text-decoration: none; border-bottom: 1px solid var(--color-border);">Shop</a>
-    </div>
-    <div class="nav__drawer-overlay" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.2);"></div>
+    <a href="/" class="nav__logo" aria-label="Scent Gallery home">Scent Gallery</a>
+    <ul class="nav__links-right" role="list">
+      <li>
+        <button class="nav__search" aria-label="Search fragrances">
+          <svg class="nav__search-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </button>
+      </li>
+      <li>
+        <button class="nav__cart" aria-label="Cart (0 items)">
+          <svg class="nav__cart-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+        </button>
+      </li>
+    </ul>
   </div>
 </nav>
 
-<main id="product-container" style="min-height: 60vh; padding: var(--space-10) var(--space-4);">
+<!-- Mobile Drawer -->
+<div class="nav__drawer" id="nav-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+  <div class="nav__drawer-overlay"></div>
+  <div class="nav__drawer-panel">
+    <button class="nav__drawer-close" aria-label="Close menu">&#215;</button>
+    <a href="/collections.html" class="nav__drawer-link">Shop</a>
+    <a href="/" class="nav__drawer-link">Home</a>
+    <a href="#" class="nav__drawer-link">About</a>
+  </div>
+</div>
+
+<main id="product-container" style="padding: var(--space-10) var(--space-4);">
   <div id="product-content" style="max-width: 1200px; margin: 0 auto;"></div>
-  <div id="product-loading" style="text-align: center; padding: var(--space-12); display: none;">
-    <p style="color: var(--color-on-surface-muted);">Loading product...</p>
-  </div>
-  <div id="product-error" style="text-align: center; padding: var(--space-12); display: none;">
-    <p style="color: var(--color-error, #d32f2f); margin-bottom: var(--space-3);">Product not found</p>
-    <a href="/collections.html" style="color: var(--color-primary); text-decoration: none;">Back to shop</a>
-  </div>
+  <div id="product-loading" style="display: none;"></div>
+  <div id="product-error" style="display: none;"></div>
 </main>
 
-<footer style="background: var(--color-bg-alt); border-top: 1px solid var(--color-border); margin-top: var(--space-12); padding: var(--space-8) var(--space-4);">
-  <div style="max-width: 1200px; margin: 0 auto; text-align: center; color: var(--color-on-surface-muted); font-size: 12px;">
-    <p>&copy; 2026 Scent Gallery. All rights reserved.</p>
+<!-- You May Also Like -->
+<section class="collection" id="pdp-also-like" aria-label="You may also like">
+  <div class="container">
+    <header class="collection__header">
+      <h2 class="collection__title">You May Also Like</h2>
+    </header>
+
+    <!-- Mobile Swiper carousel -->
+    <div class="carousel-track collection__swiper">
+      <div class="swiper">
+        <div class="swiper-wrapper">
+
+          <div class="swiper-slide">
+            <article class="product-card">
+              <div class="product-card__image-wrap">
+                <img class="product-card__image" src="assets/img/brand-assets/bottles/Pressurized-10ML.avif" alt="Sauvage by Dior" loading="lazy" width="180" height="240">
+                <span class="product-card__badge">Trending</span>
+              </div>
+              <div class="product-card__info">
+                <p class="product-card__brand">Dior</p>
+                <h3 class="product-card__name">Sauvage</h3>
+                <div class="product-card__stars" aria-label="4.9 stars, 214 reviews">
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <span class="product-card__review-count">(214)</span>
+                </div>
+                <div class="product-card__sizes">
+                  <button class="size-pill" data-price="4.00" data-size="1ml">1ml</button>
+                  <button class="size-pill size-pill--active" data-price="7.00" data-size="2ml">2ml</button>
+                  <button class="size-pill" data-price="16.00" data-size="5ml">5ml</button>
+                  <button class="size-pill" data-price="28.00" data-size="10ml">10ml</button>
+                  <button class="size-pill" data-price="76.00" data-size="30ml">30ml</button>
+                </div>
+                <p class="pill-info"><span class="pill-sprays">~38 sprays</span> · <span class="pill-label-text">Try It</span></p>
+                <p class="product-card__price">$7.00</p>
+                <button class="product-card__cta">Add to Rotation</button>
+              </div>
+            </article>
+          </div>
+
+          <div class="swiper-slide">
+            <article class="product-card">
+              <div class="product-card__image-wrap">
+                <img class="product-card__image" src="assets/img/brand-assets/bottles/5ML.avif" alt="Baccarat Rouge 540 by MFK" loading="lazy" width="180" height="240">
+                <span class="product-card__badge">Best Seller</span>
+              </div>
+              <div class="product-card__info">
+                <p class="product-card__brand">Maison Francis Kurkdjian</p>
+                <h3 class="product-card__name">Baccarat Rouge 540</h3>
+                <div class="product-card__stars" aria-label="5 stars, 389 reviews">
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <span class="product-card__review-count">(389)</span>
+                </div>
+                <div class="product-card__sizes">
+                  <button class="size-pill" data-price="6.00" data-size="1ml">1ml</button>
+                  <button class="size-pill size-pill--active" data-price="11.00" data-size="2ml">2ml</button>
+                  <button class="size-pill" data-price="24.00" data-size="5ml">5ml</button>
+                  <button class="size-pill" data-price="42.00" data-size="10ml">10ml</button>
+                  <button class="size-pill" data-price="112.00" data-size="30ml">30ml</button>
+                </div>
+                <p class="pill-info"><span class="pill-sprays">~38 sprays</span> · <span class="pill-label-text">Try It</span></p>
+                <p class="product-card__price">$11.00</p>
+                <button class="product-card__cta">Add to Rotation</button>
+              </div>
+            </article>
+          </div>
+
+          <div class="swiper-slide">
+            <article class="product-card">
+              <div class="product-card__image-wrap">
+                <img class="product-card__image" src="assets/img/brand-assets/bottles/10ML-Basic.avif" alt="Bleu de Chanel" loading="lazy" width="180" height="240">
+              </div>
+              <div class="product-card__info">
+                <p class="product-card__brand">Chanel</p>
+                <h3 class="product-card__name">Bleu de Chanel</h3>
+                <div class="product-card__stars" aria-label="4.8 stars, 187 reviews">
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <span class="product-card__review-count">(187)</span>
+                </div>
+                <div class="product-card__sizes">
+                  <button class="size-pill" data-price="5.00" data-size="1ml">1ml</button>
+                  <button class="size-pill size-pill--active" data-price="9.00" data-size="2ml">2ml</button>
+                  <button class="size-pill" data-price="20.00" data-size="5ml">5ml</button>
+                  <button class="size-pill" data-price="34.00" data-size="10ml">10ml</button>
+                  <button class="size-pill" data-price="90.00" data-size="30ml">30ml</button>
+                </div>
+                <p class="pill-info"><span class="pill-sprays">~38 sprays</span> · <span class="pill-label-text">Try It</span></p>
+                <p class="product-card__price">$9.00</p>
+                <button class="product-card__cta">Add to Rotation</button>
+              </div>
+            </article>
+          </div>
+
+          <div class="swiper-slide">
+            <article class="product-card">
+              <div class="product-card__image-wrap">
+                <img class="product-card__image" src="assets/img/brand-assets/bottles/Pressurized-30ML.avif" alt="Aventus by Creed" loading="lazy" width="180" height="240">
+                <span class="product-card__badge">Popular</span>
+              </div>
+              <div class="product-card__info">
+                <p class="product-card__brand">Creed</p>
+                <h3 class="product-card__name">Aventus</h3>
+                <div class="product-card__stars" aria-label="5 stars, 342 reviews">
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <span class="product-card__review-count">(342)</span>
+                </div>
+                <div class="product-card__sizes">
+                  <button class="size-pill" data-price="8.00" data-size="1ml">1ml</button>
+                  <button class="size-pill size-pill--active" data-price="14.00" data-size="2ml">2ml</button>
+                  <button class="size-pill" data-price="32.00" data-size="5ml">5ml</button>
+                  <button class="size-pill" data-price="56.00" data-size="10ml">10ml</button>
+                  <button class="size-pill" data-price="148.00" data-size="30ml">30ml</button>
+                </div>
+                <p class="pill-info"><span class="pill-sprays">~38 sprays</span> · <span class="pill-label-text">Try It</span></p>
+                <p class="product-card__price">$14.00</p>
+                <button class="product-card__cta">Add to Rotation</button>
+              </div>
+            </article>
+          </div>
+
+          <div class="swiper-slide">
+            <article class="product-card">
+              <div class="product-card__image-wrap">
+                <img class="product-card__image" src="assets/img/brand-assets/bottles/2ML.avif" alt="Acqua di Giò by Armani" loading="lazy" width="180" height="240">
+              </div>
+              <div class="product-card__info">
+                <p class="product-card__brand">Giorgio Armani</p>
+                <h3 class="product-card__name">Acqua di Giò</h3>
+                <div class="product-card__stars" aria-label="4.6 stars, 141 reviews">
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <span class="product-card__review-count">(141)</span>
+                </div>
+                <div class="product-card__sizes">
+                  <button class="size-pill" data-price="4.00" data-size="1ml">1ml</button>
+                  <button class="size-pill size-pill--active" data-price="7.00" data-size="2ml">2ml</button>
+                  <button class="size-pill" data-price="15.00" data-size="5ml">5ml</button>
+                  <button class="size-pill" data-price="26.00" data-size="10ml">10ml</button>
+                  <button class="size-pill" data-price="70.00" data-size="30ml">30ml</button>
+                </div>
+                <p class="pill-info"><span class="pill-sprays">~38 sprays</span> · <span class="pill-label-text">Try It</span></p>
+                <p class="product-card__price">$7.00</p>
+                <button class="product-card__cta">Add to Rotation</button>
+              </div>
+            </article>
+          </div>
+
+          <div class="swiper-slide">
+            <article class="product-card">
+              <div class="product-card__image-wrap">
+                <img class="product-card__image" src="assets/img/brand-assets/bottles/30ML-basic.avif" alt="Tobacco Vanille by Tom Ford" loading="lazy" width="180" height="240">
+                <span class="product-card__badge">Fan Fave</span>
+              </div>
+              <div class="product-card__info">
+                <p class="product-card__brand">Tom Ford</p>
+                <h3 class="product-card__name">Tobacco Vanille</h3>
+                <div class="product-card__stars" aria-label="5 stars, 201 reviews">
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <span class="product-card__review-count">(201)</span>
+                </div>
+                <div class="product-card__sizes">
+                  <button class="size-pill" data-price="7.00" data-size="1ml">1ml</button>
+                  <button class="size-pill size-pill--active" data-price="12.00" data-size="2ml">2ml</button>
+                  <button class="size-pill" data-price="28.00" data-size="5ml">5ml</button>
+                  <button class="size-pill" data-price="48.00" data-size="10ml">10ml</button>
+                  <button class="size-pill" data-price="126.00" data-size="30ml">30ml</button>
+                </div>
+                <p class="pill-info"><span class="pill-sprays">~38 sprays</span> · <span class="pill-label-text">Try It</span></p>
+                <p class="product-card__price">$12.00</p>
+                <button class="product-card__cta">Add to Rotation</button>
+              </div>
+            </article>
+          </div>
+
+        </div>
+      </div>
+      <div class="carousel-scroll-bar" id="pdp-also-like-scrollbar">
+        <div class="carousel-scroll-bar__thumb" id="pdp-also-like-thumb"></div>
+      </div>
+    </div>
+
+    <!-- Desktop grid (CSS horizontal scroll) -->
+    <div class="collection__grid" id="pdp-also-like-grid">
+
+      <article class="product-card">
+        <div class="product-card__image-wrap">
+          <img class="product-card__image" src="assets/img/brand-assets/bottles/Pressurized-10ML.avif" alt="Sauvage by Dior" loading="lazy" width="180" height="240">
+          <span class="product-card__badge">Trending</span>
+        </div>
+        <div class="product-card__info">
+          <p class="product-card__brand">Dior</p>
+          <h3 class="product-card__name">Sauvage</h3>
+          <div class="product-card__stars" aria-label="4.9 stars, 214 reviews">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span class="product-card__review-count">(214)</span>
+          </div>
+          <div class="product-card__sizes">
+            <button class="size-pill" data-price="4.00" data-size="1ml">1ml</button>
+            <button class="size-pill size-pill--active" data-price="7.00" data-size="2ml">2ml</button>
+            <button class="size-pill" data-price="16.00" data-size="5ml">5ml</button>
+            <button class="size-pill" data-price="28.00" data-size="10ml">10ml</button>
+            <button class="size-pill" data-price="76.00" data-size="30ml">30ml</button>
+          </div>
+          <p class="pill-info"><span class="pill-sprays">~38 sprays</span> · <span class="pill-label-text">Try It</span></p>
+          <p class="product-card__price">$7.00</p>
+          <button class="product-card__cta">Add to Rotation</button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-card__image-wrap">
+          <img class="product-card__image" src="assets/img/brand-assets/bottles/5ML.avif" alt="Baccarat Rouge 540 by MFK" loading="lazy" width="180" height="240">
+          <span class="product-card__badge">Best Seller</span>
+        </div>
+        <div class="product-card__info">
+          <p class="product-card__brand">Maison Francis Kurkdjian</p>
+          <h3 class="product-card__name">Baccarat Rouge 540</h3>
+          <div class="product-card__stars" aria-label="5 stars, 389 reviews">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span class="product-card__review-count">(389)</span>
+          </div>
+          <div class="product-card__sizes">
+            <button class="size-pill" data-price="6.00" data-size="1ml">1ml</button>
+            <button class="size-pill size-pill--active" data-price="11.00" data-size="2ml">2ml</button>
+            <button class="size-pill" data-price="24.00" data-size="5ml">5ml</button>
+            <button class="size-pill" data-price="42.00" data-size="10ml">10ml</button>
+            <button class="size-pill" data-price="112.00" data-size="30ml">30ml</button>
+          </div>
+          <p class="pill-info"><span class="pill-sprays">~38 sprays</span> · <span class="pill-label-text">Try It</span></p>
+          <p class="product-card__price">$11.00</p>
+          <button class="product-card__cta">Add to Rotation</button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-card__image-wrap">
+          <img class="product-card__image" src="assets/img/brand-assets/bottles/10ML-Basic.avif" alt="Bleu de Chanel" loading="lazy" width="180" height="240">
+        </div>
+        <div class="product-card__info">
+          <p class="product-card__brand">Chanel</p>
+          <h3 class="product-card__name">Bleu de Chanel</h3>
+          <div class="product-card__stars" aria-label="4.8 stars, 187 reviews">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span class="product-card__review-count">(187)</span>
+          </div>
+          <div class="product-card__sizes">
+            <button class="size-pill" data-price="5.00" data-size="1ml">1ml</button>
+            <button class="size-pill size-pill--active" data-price="9.00" data-size="2ml">2ml</button>
+            <button class="size-pill" data-price="20.00" data-size="5ml">5ml</button>
+            <button class="size-pill" data-price="34.00" data-size="10ml">10ml</button>
+            <button class="size-pill" data-price="90.00" data-size="30ml">30ml</button>
+          </div>
+          <p class="pill-info"><span class="pill-sprays">~38 sprays</span> · <span class="pill-label-text">Try It</span></p>
+          <p class="product-card__price">$9.00</p>
+          <button class="product-card__cta">Add to Rotation</button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-card__image-wrap">
+          <img class="product-card__image" src="assets/img/brand-assets/bottles/Pressurized-30ML.avif" alt="Aventus by Creed" loading="lazy" width="180" height="240">
+          <span class="product-card__badge">Popular</span>
+        </div>
+        <div class="product-card__info">
+          <p class="product-card__brand">Creed</p>
+          <h3 class="product-card__name">Aventus</h3>
+          <div class="product-card__stars" aria-label="5 stars, 342 reviews">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span class="product-card__review-count">(342)</span>
+          </div>
+          <div class="product-card__sizes">
+            <button class="size-pill" data-price="8.00" data-size="1ml">1ml</button>
+            <button class="size-pill size-pill--active" data-price="14.00" data-size="2ml">2ml</button>
+            <button class="size-pill" data-price="32.00" data-size="5ml">5ml</button>
+            <button class="size-pill" data-price="56.00" data-size="10ml">10ml</button>
+            <button class="size-pill" data-price="148.00" data-size="30ml">30ml</button>
+          </div>
+          <p class="pill-info"><span class="pill-sprays">~38 sprays</span> · <span class="pill-label-text">Try It</span></p>
+          <p class="product-card__price">$14.00</p>
+          <button class="product-card__cta">Add to Rotation</button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-card__image-wrap">
+          <img class="product-card__image" src="assets/img/brand-assets/bottles/2ML.avif" alt="Acqua di Giò by Armani" loading="lazy" width="180" height="240">
+        </div>
+        <div class="product-card__info">
+          <p class="product-card__brand">Giorgio Armani</p>
+          <h3 class="product-card__name">Acqua di Giò</h3>
+          <div class="product-card__stars" aria-label="4.6 stars, 141 reviews">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star star--empty" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span class="product-card__review-count">(141)</span>
+          </div>
+          <div class="product-card__sizes">
+            <button class="size-pill" data-price="4.00" data-size="1ml">1ml</button>
+            <button class="size-pill size-pill--active" data-price="7.00" data-size="2ml">2ml</button>
+            <button class="size-pill" data-price="15.00" data-size="5ml">5ml</button>
+            <button class="size-pill" data-price="26.00" data-size="10ml">10ml</button>
+            <button class="size-pill" data-price="70.00" data-size="30ml">30ml</button>
+          </div>
+          <p class="pill-info"><span class="pill-sprays">~38 sprays</span> · <span class="pill-label-text">Try It</span></p>
+          <p class="product-card__price">$7.00</p>
+          <button class="product-card__cta">Add to Rotation</button>
+        </div>
+      </article>
+
+      <article class="product-card">
+        <div class="product-card__image-wrap">
+          <img class="product-card__image" src="assets/img/brand-assets/bottles/30ML-basic.avif" alt="Tobacco Vanille by Tom Ford" loading="lazy" width="180" height="240">
+          <span class="product-card__badge">Fan Fave</span>
+        </div>
+        <div class="product-card__info">
+          <p class="product-card__brand">Tom Ford</p>
+          <h3 class="product-card__name">Tobacco Vanille</h3>
+          <div class="product-card__stars" aria-label="5 stars, 201 reviews">
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span class="product-card__review-count">(201)</span>
+          </div>
+          <div class="product-card__sizes">
+            <button class="size-pill" data-price="7.00" data-size="1ml">1ml</button>
+            <button class="size-pill size-pill--active" data-price="12.00" data-size="2ml">2ml</button>
+            <button class="size-pill" data-price="28.00" data-size="5ml">5ml</button>
+            <button class="size-pill" data-price="48.00" data-size="10ml">10ml</button>
+            <button class="size-pill" data-price="126.00" data-size="30ml">30ml</button>
+          </div>
+          <p class="pill-info"><span class="pill-sprays">~38 sprays</span> · <span class="pill-label-text">Try It</span></p>
+          <p class="product-card__price">$12.00</p>
+          <button class="product-card__cta">Add to Rotation</button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <span class="footer__brand-name">Scent Gallery</span>
+        <p class="footer__brand-desc">Luxury fragrance decants from 1ml. Try before you commit. Discover your next signature scent without the full-bottle gamble.</p>
+        <nav class="footer__social" aria-label="Social media">
+          <a href="#" class="footer__social-link" aria-label="TikTok">
+            <svg class="footer__social-icon" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.76a4.85 4.85 0 01-1.02-.07z"/></svg>
+          </a>
+          <a href="#" class="footer__social-link" aria-label="Instagram">
+            <svg class="footer__social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+        </nav>
+      </div>
+      <div>
+        <span class="footer__col-title">Shop</span>
+        <nav class="footer__nav">
+          <a href="/collections.html" class="footer__nav-link">All Fragrances</a>
+          <a href="/collections.html" class="footer__nav-link">New Arrivals</a>
+          <a href="/collections.html" class="footer__nav-link">Best Sellers</a>
+          <a href="/collections.html" class="footer__nav-link">Gift Sets</a>
+        </nav>
+      </div>
+      <div>
+        <span class="footer__col-title">Help</span>
+        <nav class="footer__nav">
+          <a href="/#how-it-works" class="footer__nav-link">How It Works</a>
+          <a href="#" class="footer__nav-link">Shipping &amp; Returns</a>
+          <a href="#" class="footer__nav-link">FAQ</a>
+          <a href="#" class="footer__nav-link">Contact</a>
+        </nav>
+      </div>
+      <div>
+        <span class="footer__col-title">Stay in the know</span>
+        <p class="footer__newsletter-desc">New drops, restocks, and exclusive offers — straight to your inbox.</p>
+        <form class="footer__form" onsubmit="return false;">
+          <label for="email-footer" class="sr-only">Email address</label>
+          <input id="email-footer" class="footer__input" type="email" placeholder="Your email" autocomplete="email">
+          <button type="submit" class="footer__subscribe-btn">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__legal">&copy; 2026 Scent Gallery. All rights reserved.</p>
+      <nav class="footer__legal-links">
+        <a href="#" class="footer__legal-link">Privacy Policy</a>
+        <a href="#" class="footer__legal-link">Terms of Service</a>
+      </nav>
+    </div>
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
 window.SG_CONFIG = {
   apiBase: '/api',
@@ -121,8 +655,64 @@ window.SG_CONFIG = {
 function getApiUrl(path) {
   return window.SG_CONFIG.apiBase + path;
 }
+
+// Biancco Latte — hardcoded demo data
+window.DEMO_PRODUCT = {
+  id: 9999,
+  slug: 'biancco-latte',
+  name: 'Biancco Latte',
+  description: 'Warm, creamy vanilla wrapped in white musk and soft sandalwood. A skin-close scent that lingers effortlessly — perfect for everyday wear.',
+  short_description: '<p>Vanilla · White Musk · Sandalwood<br />\nWarm, creamy vanilla wrapped in soft white musk and smooth sandalwood. Rich without being heavy — like cashmere on skin.<br />\nBest for: Evening wear, date nights, cold weather, anyone who wants a cozy signature scent.</p>',
+  images: [{ src: 'https://scentgallery.shop/wp-content/uploads/2025/11/img_9707.avif' }],
+  prices: { currency_symbol: '$', currency_minor_unit: 2, price: '1299' },
+  // supportsPressurized: products that have a pressurized add-on available
+  supportsPressurized: true,
+  variations: [
+    {
+      id: 1,
+      attributes: [{ name: 'Size', value: '1ml' }],
+      prices: { currency_symbol: '$', currency_minor_unit: 2, price: '399' }
+    },
+    {
+      id: 2,
+      attributes: [{ name: 'Size', value: '2ml' }],
+      prices: { currency_symbol: '$', currency_minor_unit: 2, price: '599' }
+    },
+    {
+      id: 3,
+      attributes: [{ name: 'Size', value: '5ml' }],
+      prices: { currency_symbol: '$', currency_minor_unit: 2, price: '999' }
+    },
+    {
+      id: 4,
+      attributes: [{ name: 'Size', value: '10ml' }],
+      prices: { currency_symbol: '$', currency_minor_unit: 2, price: '1299' }
+    },
+    {
+      id: 5,
+      attributes: [{ name: 'Size', value: '30ml' }],
+      prices: { currency_symbol: '$', currency_minor_unit: 2, price: '2499' }
+    }
+  ]
+};
 </script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/product-page.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.innerWidth <= 768) {
+    new Swiper('#pdp-also-like .swiper', {
+      spaceBetween: 12,
+      slidesPerView: 2.5,
+      freeMode: true,
+      grabCursor: true,
+      simulateTouch: true,
+      resistanceRatio: 0.85,
+      freeModeMomentum: true,
+    });
+  }
+});
+</script>
 </body>
 </html>
