@@ -19,7 +19,12 @@ async function fetchVariationPrices(variationIds) {
 }
 
 export default async function handler(req, res) {
-  const qs  = new URLSearchParams(req.query).toString();
+  // Strip internal flag before forwarding — WooCommerce doesn't know about it
+  const embedVariations = req.query.embed_variations === '1';
+  const forward = { ...req.query };
+  delete forward.embed_variations;
+
+  const qs  = new URLSearchParams(forward).toString();
   const url = qs ? `${BASE}?${qs}` : BASE;
 
   try {
@@ -35,28 +40,32 @@ export default async function handler(req, res) {
     }
 
     const products = await upstream.json();
-    const list = Array.isArray(products) ? products : [];
 
-    // For variable products with variation stubs, embed prices in one pass
-    await Promise.all(list.map(async (product) => {
-      const rawVars = product.variations || [];
-      if (!Array.isArray(rawVars) || rawVars.length === 0) return;
+    // Only embed per-variation prices when the product page requests it.
+    // Listing pages skip this — otherwise 6 products × 5 variations = 30 extra WC calls.
+    if (embedVariations) {
+      const list = Array.isArray(products) ? products : [];
+      await Promise.all(list.map(async (product) => {
+        const rawVars = product.variations || [];
+        if (!Array.isArray(rawVars) || rawVars.length === 0) return;
 
-      const ids = rawVars.map(v => (typeof v === 'object' ? v.id : v)).filter(Boolean);
-      if (ids.length === 0) return;
+        const ids = rawVars.map(v => (typeof v === 'object' ? v.id : v)).filter(Boolean);
+        if (ids.length === 0) return;
 
-      const varPrices = await fetchVariationPrices(ids);
-      const priceMap  = {};
-      varPrices.forEach(v => { priceMap[v.id] = v.prices; });
+        const varPrices = await fetchVariationPrices(ids);
+        const priceMap  = {};
+        varPrices.forEach(v => { priceMap[v.id] = v.prices; });
 
-      product.variations = rawVars.map(v => {
-        const id      = typeof v === 'object' ? v.id : v;
-        const attrs   = (typeof v === 'object' && v.attributes) ? v.attributes : [];
-        return { id, attributes: attrs, prices: priceMap[id] || null };
-      });
-    }));
+        product.variations = rawVars.map(v => {
+          const id    = typeof v === 'object' ? v.id : v;
+          const attrs = (typeof v === 'object' && v.attributes) ? v.attributes : [];
+          return { id, attributes: attrs, prices: priceMap[id] || null };
+        });
+      }));
+    }
 
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=60');
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json(products);
   } catch (err) {

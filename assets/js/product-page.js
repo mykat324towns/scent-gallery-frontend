@@ -162,8 +162,8 @@
     error.style.display = 'none';
 
     try {
-      // 1. Fetch product by slug
-      const productUrl = getApiUrl('/products') + '?slug=' + encodeURIComponent(slug);
+      // 1. Fetch product by slug — embed_variations=1 triggers per-variation price lookup
+      const productUrl = getApiUrl('/products') + '?slug=' + encodeURIComponent(slug) + '&embed_variations=1';
       const productRes = await fetch(productUrl);
       if (!productRes.ok) throw new Error('API error: ' + productRes.status);
 
@@ -611,6 +611,96 @@
     if (msg) error.textContent = msg;
   }
 
+  // ── Also Like ────────────────────────────────────────────────────────
+  function buildAlsoLikeCard(p) {
+    const img  = p.images && p.images[0];
+    const src  = (img && img.src) || '';
+    const alt  = (img && img.alt) || p.name || '';
+    const link = p.slug ? '/product.html?slug=' + encodeURIComponent(p.slug) : '#';
+    const b    = p.on_sale ? 'Sale' : p.featured ? 'Best Seller' : '';
+    const priceStr = (function () {
+      if (!p.prices) return '';
+      var sym = p.prices.currency_symbol || '$';
+      var exp = p.prices.currency_minor_unit != null ? p.prices.currency_minor_unit : 2;
+      var div = Math.pow(10, exp);
+      if (p.prices.price_range) {
+        return 'From ' + sym + (parseInt(p.prices.price_range.min_amount, 10) / div).toFixed(exp);
+      }
+      return sym + (parseInt(p.prices.price, 10) / div).toFixed(exp);
+    })();
+
+    var imgTag = src
+      ? '<img class="product-card__image" src="' + sanitizeHtml(src) + '" alt="' + sanitizeHtml(alt) + '" loading="lazy" width="180" height="240">'
+      : '';
+
+    return '<article class="product-card">' +
+      '<a href="' + sanitizeHtml(link) + '" class="product-card__image-link" tabindex="-1" aria-hidden="true">' +
+        '<div class="product-card__image-wrap">' + imgTag +
+          (b ? '<span class="product-card__badge">' + sanitizeHtml(b) + '</span>' : '') +
+        '</div>' +
+      '</a>' +
+      '<div class="product-card__info">' +
+        '<h3 class="product-card__name"><a href="' + sanitizeHtml(link) + '" class="product-card__name-link">' + sanitizeHtml(p.name) + '</a></h3>' +
+        (priceStr ? '<p class="product-card__price">' + sanitizeHtml(priceStr) + '</p>' : '') +
+        '<a href="' + sanitizeHtml(link) + '" class="product-card__cta-link">Shop Now →</a>' +
+      '</div>' +
+    '</article>';
+  }
+
+  function alsoLikeSkeleton() {
+    return '<article class="product-card product-card--skeleton">' +
+      '<div class="product-card__image-wrap" style="aspect-ratio:3/4;background:var(--color-surface-muted)"></div>' +
+      '<div class="product-card__info" style="display:flex;flex-direction:column;gap:10px;padding:12px 0">' +
+        '<div style="height:1em;width:70%;background:var(--color-surface-muted);border-radius:4px"></div>' +
+        '<div style="height:1em;width:40%;background:var(--color-surface-muted);border-radius:4px"></div>' +
+      '</div>' +
+    '</article>';
+  }
+
+  async function loadAlsoLike(currentSlug) {
+    var gridEl    = document.getElementById('pdp-also-like-grid');
+    var swipeEl   = document.querySelector('#pdp-also-like .swiper-wrapper');
+    var skels     = Array.from({ length: 4 }, alsoLikeSkeleton).join('');
+
+    if (gridEl)  gridEl.innerHTML  = skels;
+    if (swipeEl) swipeEl.innerHTML = Array.from({ length: 4 }, function () {
+      return '<div class="swiper-slide">' + alsoLikeSkeleton() + '</div>';
+    }).join('');
+
+    try {
+      var res = await fetch(getApiUrl('/products') + '?per_page=7&orderby=popularity');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      var data = await res.json();
+      var list = (Array.isArray(data) ? data : [])
+        .filter(function (p) { return p.slug !== currentSlug; })
+        .slice(0, 6);
+
+      if (!list.length) return;
+
+      var cards = list.map(buildAlsoLikeCard).join('');
+      if (gridEl)  gridEl.innerHTML  = cards;
+      if (swipeEl) swipeEl.innerHTML = list.map(function (p) {
+        return '<div class="swiper-slide">' + buildAlsoLikeCard(p) + '</div>';
+      }).join('');
+
+      // Re-init Swiper if on mobile
+      if (window.innerWidth <= 768 && window.Swiper) {
+        var swiperEl = document.querySelector('#pdp-also-like .swiper');
+        if (swiperEl) {
+          if (swiperEl.swiper) swiperEl.swiper.destroy(true, true);
+          new window.Swiper(swiperEl, {
+            spaceBetween: 12, slidesPerView: 2.5, freeMode: true,
+            grabCursor: true, simulateTouch: true, resistanceRatio: 0.85,
+          });
+        }
+      }
+    } catch (e) {
+      console.warn('[also-like] fetch failed:', e.message);
+      if (gridEl)  gridEl.innerHTML  = '';
+      if (swipeEl) swipeEl.innerHTML = '';
+    }
+  }
+
   // ── Init ─────────────────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function () {
     // window.DEMO_SLUG allows product.html to specify a fallback slug for testing
@@ -622,7 +712,9 @@
     }
 
     initNonce();
+    // Fire both in parallel — product fetch and also-like fetch are independent
     fetchProduct(slug);
+    loadAlsoLike(slug);
   });
 
 })();
