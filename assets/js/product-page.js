@@ -155,28 +155,29 @@
     }
   }
 
-  // ── WooCommerce API Fetch ────────────────────────────────────────────
-  async function fetchProduct(slug) {
+  // ── Storefront Fetch ─────────────────────────────────────────────────
+  // Single request returns product + variation prices + also-like products.
+  // WP serves from transient cache after first hit — no N+1 WC calls.
+  async function fetchStorefront(slug) {
     loading.style.display = 'block';
     container.innerHTML = '';
     error.style.display = 'none';
 
     try {
-      // 1. Fetch product by slug — embed_variations=1 triggers per-variation price lookup
-      const productUrl = getApiUrl('/products') + '?slug=' + encodeURIComponent(slug) + '&embed_variations=1';
-      const productRes = await fetch(productUrl);
-      if (!productRes.ok) throw new Error('API error: ' + productRes.status);
+      const url = getApiUrl('/storefront') + '?context=product&slug=' + encodeURIComponent(slug);
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('API error: ' + res.status);
 
-      const data = await productRes.json();
-      const products = Array.isArray(data) ? data : (data.data || []);
-      const product  = products.find(p => p.slug === slug) || products[0];
+      const data = await res.json();
+      if (!data.product) { showError('Product not found'); return; }
 
-      if (!product) { showError('Product not found'); return; }
-
-      // Variation prices are now embedded by the /api/products proxy — no second fetch needed.
-
-      renderProduct(product);
+      renderProduct(data.product);
       loading.style.display = 'none';
+
+      // Render also-like from same response — no second request needed
+      if (data.alsoLike && data.alsoLike.length) {
+        renderAlsoLike(data.alsoLike);
+      }
     } catch (err) {
       console.error('[product-page] fetch failed:', err);
       showError('Failed to load product');
@@ -657,47 +658,27 @@
     '</article>';
   }
 
-  async function loadAlsoLike(currentSlug) {
-    var gridEl    = document.getElementById('pdp-also-like-grid');
-    var swipeEl   = document.querySelector('#pdp-also-like .swiper-wrapper');
-    var skels     = Array.from({ length: 4 }, alsoLikeSkeleton).join('');
+  function renderAlsoLike(list) {
+    var gridEl  = document.getElementById('pdp-also-like-grid');
+    var swipeEl = document.querySelector('#pdp-also-like .swiper-wrapper');
 
-    if (gridEl)  gridEl.innerHTML  = skels;
-    if (swipeEl) swipeEl.innerHTML = Array.from({ length: 4 }, function () {
-      return '<div class="swiper-slide">' + alsoLikeSkeleton() + '</div>';
+    if (!list || !list.length) return;
+
+    var cards = list.map(buildAlsoLikeCard).join('');
+    if (gridEl)  gridEl.innerHTML  = cards;
+    if (swipeEl) swipeEl.innerHTML = list.map(function (p) {
+      return '<div class="swiper-slide">' + buildAlsoLikeCard(p) + '</div>';
     }).join('');
 
-    try {
-      var res = await fetch(getApiUrl('/products') + '?per_page=7&orderby=popularity');
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      var data = await res.json();
-      var list = (Array.isArray(data) ? data : [])
-        .filter(function (p) { return p.slug !== currentSlug; })
-        .slice(0, 6);
-
-      if (!list.length) return;
-
-      var cards = list.map(buildAlsoLikeCard).join('');
-      if (gridEl)  gridEl.innerHTML  = cards;
-      if (swipeEl) swipeEl.innerHTML = list.map(function (p) {
-        return '<div class="swiper-slide">' + buildAlsoLikeCard(p) + '</div>';
-      }).join('');
-
-      // Re-init Swiper if on mobile
-      if (window.innerWidth <= 768 && window.Swiper) {
-        var swiperEl = document.querySelector('#pdp-also-like .swiper');
-        if (swiperEl) {
-          if (swiperEl.swiper) swiperEl.swiper.destroy(true, true);
-          new window.Swiper(swiperEl, {
-            spaceBetween: 12, slidesPerView: 2.5, freeMode: true,
-            grabCursor: true, simulateTouch: true, resistanceRatio: 0.85,
-          });
-        }
+    if (window.innerWidth <= 768 && window.Swiper) {
+      var swiperEl = document.querySelector('#pdp-also-like .swiper');
+      if (swiperEl) {
+        if (swiperEl.swiper) swiperEl.swiper.destroy(true, true);
+        new window.Swiper(swiperEl, {
+          spaceBetween: 12, slidesPerView: 2.5, freeMode: true,
+          grabCursor: true, simulateTouch: true, resistanceRatio: 0.85,
+        });
       }
-    } catch (e) {
-      console.warn('[also-like] fetch failed:', e.message);
-      if (gridEl)  gridEl.innerHTML  = '';
-      if (swipeEl) swipeEl.innerHTML = '';
     }
   }
 
@@ -712,9 +693,7 @@
     }
 
     initNonce();
-    // Fire both in parallel — product fetch and also-like fetch are independent
-    fetchProduct(slug);
-    loadAlsoLike(slug);
+    fetchStorefront(slug);
   });
 
 })();
