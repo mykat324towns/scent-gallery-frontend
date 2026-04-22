@@ -2969,7 +2969,7 @@ window.SG_STORE_CONFIG = {
     const src = img?.src || '';
     const alt = img?.alt || p.name || '';
     const b = badge(p);
-    const link = p.permalink || '#';
+    const link = p.slug ? `/product.html?slug=${encodeURIComponent(p.slug)}` : '#';
     const imgTag = src
       ? `<img class="product-card__image" src="${src}" alt="${alt}" loading="lazy" width="180" height="240" onerror="this.parentElement.style.background='var(--color-surface-muted)';this.remove()">`
       : '';
@@ -3028,7 +3028,7 @@ window.SG_STORE_CONFIG = {
     const p = new URLSearchParams({ per_page: sec.count, orderby: sec.orderby, order: 'desc' });
     if (sec.featured) p.set('featured', 'true');
     if (sec.category) p.set('category', sec.category);
-    const res = await fetch(`${CFG.storeUrl}/wp-json/wc/store/v1/products?${p}`);
+    const res = await fetch(`/api/products?${p}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   }

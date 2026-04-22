@@ -173,37 +173,7 @@
 
       if (!product) { showError('Product not found'); return; }
 
-      // 2. Fetch variation prices — the Store API embeds {id, attributes} but no prices.
-      //    We fetch each variation individually by ID and merge prices back in.
-      const rawVariations = product.variations || [];
-      if (rawVariations.length > 0) {
-        try {
-          const ids = rawVariations.map(v => (typeof v === 'object' ? v.id : v)).join(',');
-          const varUrl = getApiUrl('/variations') + '?ids=' + encodeURIComponent(ids);
-          const varRes = await fetch(varUrl);
-          if (varRes.ok) {
-            const varData = await varRes.json();
-            // Build price lookup by variation ID
-            const priceMap = {};
-            (Array.isArray(varData) ? varData : []).forEach(function (v) {
-              if (v && v.id) priceMap[v.id] = v.prices;
-            });
-            // Merge prices into the parent's variation stubs
-            product.variations = rawVariations.map(function (v) {
-              const id = typeof v === 'object' ? v.id : v;
-              return {
-                id: id,
-                attributes: (typeof v === 'object' ? v.attributes : []) || [],
-                prices: priceMap[id] || null,
-              };
-            });
-          } else {
-            console.warn('[product-page] variations fetch failed:', varRes.status);
-          }
-        } catch (varErr) {
-          console.error('[product-page] variations fetch error:', varErr);
-        }
-      }
+      // Variation prices are now embedded by the /api/products proxy — no second fetch needed.
 
       renderProduct(product);
       loading.style.display = 'none';
